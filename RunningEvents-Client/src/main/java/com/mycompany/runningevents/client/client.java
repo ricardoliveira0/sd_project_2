@@ -6,14 +6,9 @@ package com.mycompany.runningevents.client;
 
 import java.io.*;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import net.minidev.json.JSONObject;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -30,7 +25,6 @@ import org.apache.http.util.EntityUtils;
 public class client {
     
     private static int opt, option;
-    private static byte[] b = new byte[128];
     private static BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
     private static Scanner scanner = new Scanner(System.in);
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
