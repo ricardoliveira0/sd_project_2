@@ -19,7 +19,7 @@ public class participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dorsalID;
     
-    private String eventID;
+    private Integer eventID;
     private String participantName;
     private String participantEchelon;
     private String participantGender;
@@ -32,7 +32,7 @@ public class participant {
     
     public participant(){}
     
-    public participant(String eventID, String participantName,
+    public participant(Integer eventID, String participantName,
             String participantEchelon, String participantGender, 
             String participantLocation, Timestamp startTime, Timestamp P1Time, 
             Timestamp P2Time, Timestamp P3Time, Timestamp finishTime) {
