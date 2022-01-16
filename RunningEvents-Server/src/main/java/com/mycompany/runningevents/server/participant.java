@@ -60,5 +60,68 @@ public class participant {
         this.participantName = participantName;
     }
     
+    public String getParticipantEchelon(){
+        return participantEchelon;
+    }
+    
+    public void setParticipantEchelon(String participantEchelon){
+        this.participantEchelon = participantEchelon;
+    }
+    
+    public String getParticipantGender(){
+        return participantGender;
+    }
+    
+    public void setParticipantGender(String participantGender){
+        this.participantGender = participantGender;
+    }
+    
+    public String getParticipantLocation(){
+        return participantLocation;
+    }
+    
+    public void setParticipantLocation(String participantLocation){
+        this.participantLocation = participantLocation;
+    }
+    
+    public Timestamp getParticipantStartTime(){
+        return startTime;
+    }
+    
+    public void setParticipantStartTime(Timestamp startTime){
+        this.startTime = startTime;
+    }
+
+    public Timestamp getParticipantP1Time(){
+        return P1Time;
+    }
+    
+    public void setParticipantP1Time(Timestamp P1Time){
+        this.P1Time = P1Time;
+    }
+
+    public Timestamp getParticipantP2Time(){
+        return P2Time;
+    }
+    
+    public void setParticipantP2Time(Timestamp P2Time){
+        this.P2Time = P2Time;
+    }
+
+    public Timestamp getParticipantP3Time(){
+        return P3Time;
+    }
+    
+    public void setParticipantP3Time(Timestamp P3Time){
+        this.P3Time = P3Time;
+    }
+
+    public Timestamp getParticipantFinishTime(){
+        return finishTime;
+    }
+    
+    public void setParticipantFinishTime(Timestamp finishTime){
+        this.finishTime = finishTime;
+    }
     
 }
