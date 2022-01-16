@@ -69,60 +69,136 @@ public class client {
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
             CloseableHttpResponse response = httpClient.execute(post)) {
             System.out.println(EntityUtils.toString(response.getEntity()));
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
     }
     
     private static String echelonInterpreter(int echelon) {
+        
         String fullEchelon = null;
+        
         switch(echelon) {
+            
             case 1:
+                
                 fullEchelon = "Juniors";
+                
                 break;
+                
             case 2:
+                
                 fullEchelon = "Seniors";
+                
                 break;
+                
             case 3:
+                
                 fullEchelon = "Veterans 35";
+                
                 break;
+                
             case 4:
+                
                 fullEchelon = "Veterans 40";
+                
                 break;
+                
             case 5:
+                
                 fullEchelon = "Veterans 45";
+                
                 break;
+                
             case 6:
+                
                 fullEchelon = "Veterans 50";
+                
                 break;
+                
             case 7:
+                
                 fullEchelon = "Veterans 55";
+                
                 break;
+                
             case 8:
+                
                 fullEchelon = "Veterans 60";
+                
                 break;
+                
             case 9:
+                
                 fullEchelon = "Veterans 65+";
+                
                 break;  
+                
         }
+        
         return fullEchelon;
+        
     }
     
     private static String genderInterpreter(int gender) {
+        
         String fullGender = null;
+        
         switch(gender) {
+            
             case 1:
+                
                 fullGender = "Male";
+                
                 break;
+                
             case 2:
+                
                 fullGender = "Female";
+                
                 break;
+                
         }
+        
         return fullGender;
+        
+    }
+
+    private static String typeInterpreter(int type) {
+        
+        String fullType = null;
+        
+        switch(type) {
+            
+            case 1:
+                
+                fullType = "Track";
+                
+                break;
+                
+            case 2:
+                
+                fullType = "Road";
+                
+                break;
+                
+            case 3:
+                
+                fullType = "Trails";
+                
+                break;
+                
+        }
+        
+        return fullType;
+        
     }
     
     public static void main(String[] args) throws IOException, Exception {
 
         while(true) {
+            
             System.out.println("");
             System.out.println("==============================================");
             System.out.println("==================== MENU ====================");
@@ -130,7 +206,8 @@ public class client {
             System.out.println("2. Get all events list for a day");
             System.out.println("3. Register new participant");
             System.out.println("4. List participants from an event");
-            System.out.println("5. Set participant trial time");
+            System.out.println("5. Get number of participants at position");
+            //     /\ DONE       \/ TODO
             System.out.println("6. Get general scoreboard");
             System.out.println("7. Get PONTO INTERMÉDIO");
             System.out.println("8. Exit");
@@ -139,7 +216,9 @@ public class client {
             opt = scanner.nextInt();
             
             switch(opt) {
+                
                 case 1: // Register new event
+                    
                     System.out.println("Submit the event name:");
                     String eventName = buffer.readLine();
                     
@@ -169,8 +248,16 @@ public class client {
                     String shorten_event_ts = event_ts.split(" ")[0];
                     
                     System.out.println("Submit the event type.");
-                    System.out.println("1- Track. 2- Road. 3- Trails");
-                    int eventType = scanner.nextInt();
+                    System.out.println("1- Track. 2- Road. 3- Trails:");
+                    option = scanner.nextInt();
+                    
+                    while (option < 1 && option > 3) {
+                        System.out.println("Invalid option. Please choose one of the listed options.");
+                        System.out.println("1- Track. 2- Road. 3- Trails:");
+                        option = scanner.nextInt();
+                    }
+                    
+                    String eventType = genderInterpreter(option);
                     
                     data.clear();
                     data.put("eventName", eventName);
@@ -185,6 +272,7 @@ public class client {
                     break;
                     
                 case 2: // Get events at day
+                    
                     System.out.println("Submit the event year:");
                     Integer searchYear = Integer.parseInt(buffer.readLine());
                     
@@ -196,38 +284,40 @@ public class client {
                     
                     Timestamp tempSearch_ts = new Timestamp(searchYear-1900, searchMonth-1, searchDay, 00, 00, 00, 000);
                     String search_ts = tempSearch_ts.toString().split(" ")[0];
-                    System.out.println("ts: " + search_ts);
                     
                     path = "http://localhost:8080/event/getEvents?eventShortenDate=" + search_ts;
-                    System.out.println("link: " + path);
                  
                     sendGet(path);
                     
                     break;
 
-                    
                 case 3: // Register a new participant
+                    
                     System.out.println("Submit the participant name:");
                     String participantName = buffer.readLine();
                     
                     System.out.println("Submit the gender.");
                     System.out.println("1- Male. 2- Female:");
                     option = scanner.nextInt();
-                    while (option < 0 && option > 3){
+                    
+                    while (option < 1 && option > 2){
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Male. 2- Female:");
                         option = scanner.nextInt();
                     }
+                    
                     String participantGender = genderInterpreter(option);
                     
                     System.out.println("Submit the echelon.");
                     System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                     option = scanner.nextInt();
+                    
                     while (option < 0 && option > 10) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                         option = scanner.nextInt();
                     }
+                    
                     String participantEchelon = echelonInterpreter(option);
                     
                     
@@ -245,6 +335,38 @@ public class client {
                     sendPost(path, data);
 
                     break;
+                    
+                case 4: // List participants -> event
+                    
+                    System.out.println("Submit the event name:");
+                    String eventSearchName = buffer.readLine();
+                    
+                    path = "http://localhost:8080/participant/getEventParticipant?eventSearchName=" + eventSearchName;
+                    
+                    sendGet(path);
+
+                    break;
+                    
+                case 5: // List participants -> Position
+                    System.out.println("Submit the event name:");
+                    String eventPosName = buffer.readLine();
+                    
+                    System.out.println("Submit the position.");
+                    System.out.println("1- P1. 2- P2. 3- P3:");
+                    option = scanner.nextInt();
+                    
+                    while (option < 1 && option > 3) {
+                        System.out.println("Invalid option. Please choose one of the listed options.");
+                        System.out.println("1- P1. 2- P2. 3- P3:");
+                        option = scanner.nextInt();
+                    }
+                    
+                    path = "http://localhost:8080/participant/getParticipantsAtPos?eventPosName=" + eventPosName + "&pos=" + option;
+                    
+                    sendGet(path);
+
+                    break;
+                    
             }
             
         }
