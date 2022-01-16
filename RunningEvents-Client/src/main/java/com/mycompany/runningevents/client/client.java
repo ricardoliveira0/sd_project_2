@@ -29,7 +29,7 @@ import org.apache.http.util.EntityUtils;
 
 public class client {
     
-    private static int opt, read;
+    private static int opt, option;
     private static byte[] b = new byte[128];
     private static BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
     private static Scanner scanner = new Scanner(System.in);
@@ -40,11 +40,10 @@ public class client {
     public static void sendGet(String path) throws Exception {
 
         HttpGet request = new HttpGet(path);
-
+        
         try (CloseableHttpResponse response = httpClient.execute(request)) {
 
             HttpEntity entity = response.getEntity();
-            System.out.println(entity);
 
             if (entity != null) {
                 // return it as a String
@@ -75,10 +74,56 @@ public class client {
         
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
             CloseableHttpResponse response = httpClient.execute(post)) {
-
-            //System.out.println(EntityUtils.toString(response.getEntity()));
+            System.out.println(EntityUtils.toString(response.getEntity()));
         }
 
+    }
+    
+    private static String echelonInterpreter(int echelon) {
+        String fullEchelon = null;
+        switch(echelon) {
+            case 1:
+                fullEchelon = "Juniors";
+                break;
+            case 2:
+                fullEchelon = "Seniors";
+                break;
+            case 3:
+                fullEchelon = "Veterans 35";
+                break;
+            case 4:
+                fullEchelon = "Veterans 40";
+                break;
+            case 5:
+                fullEchelon = "Veterans 45";
+                break;
+            case 6:
+                fullEchelon = "Veterans 50";
+                break;
+            case 7:
+                fullEchelon = "Veterans 55";
+                break;
+            case 8:
+                fullEchelon = "Veterans 60";
+                break;
+            case 9:
+                fullEchelon = "Veterans 65+";
+                break;  
+        }
+        return fullEchelon;
+    }
+    
+    private static String genderInterpreter(int gender) {
+        String fullGender = null;
+        switch(gender) {
+            case 1:
+                fullGender = "Male";
+                break;
+            case 2:
+                fullGender = "Female";
+                break;
+        }
+        return fullGender;
     }
     
     public static void main(String[] args) throws IOException, Exception {
@@ -170,19 +215,38 @@ public class client {
                 case 3: // Register a new participant
                     System.out.println("Submit the participant name:");
                     String participantName = buffer.readLine();
-
+                    
                     System.out.println("Submit the gender.");
                     System.out.println("1- Male. 2- Female:");
-                    int participantGender = scanner.nextInt();
-
+                    option = scanner.nextInt();
+                    while (option < 0 && option > 3){
+                        System.out.println("Invalid option. Please choose one of the listed options.");
+                        System.out.println("1- Male. 2- Female:");
+                        option = scanner.nextInt();
+                    }
+                    String participantGender = genderInterpreter(option);
+                    
                     System.out.println("Submit the echelon.");
                     System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
-                    int participantEchelon = scanner.nextInt();
-
+                    option = scanner.nextInt();
+                    while (option < 0 && option > 10) {
+                        System.out.println("Invalid option. Please choose one of the listed options.");
+                        System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
+                        option = scanner.nextInt();
+                    }
+                    String participantEchelon = echelonInterpreter(option);
+                    
+                    
                     System.out.println("Submit event name to register this participant:");
                     String eventNameToRegisterParticipant = buffer.readLine();
                     
-                    path = "http://localhost:8080/event/postRegisterEvent";
+                    data.clear();
+                    data.put("participantName", participantName);
+                    data.put("participantGender", participantGender);
+                    data.put("participantEchelon", participantEchelon);
+                    data.put("participantEvent", eventNameToRegisterParticipant);
+                    
+                    path = "http://localhost:8080/participant/postRegisterParticipant";
                     
                     sendPost(path, data);
 
