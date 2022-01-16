@@ -6,6 +6,9 @@ package com.mycompany.runningevents.client;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import net.minidev.json.JSONObject;
 import org.apache.http.Header;
@@ -30,24 +33,18 @@ public class client {
     private static byte[] b = new byte[128];
     private static BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
     private static Scanner scanner = new Scanner(System.in);
-    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static String path = "";
+    private static JSONObject data = new JSONObject();
     
-    private void sendGet() throws Exception {
+    public static void sendGet(String path) throws Exception {
 
-        HttpGet request = new HttpGet("https://www.google.com/search?q=mkyong");
-
-        // add request headers
-        request.addHeader("custom-key", "mkyong");
-        request.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
+        HttpGet request = new HttpGet(path);
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
 
-            // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
             HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
+            System.out.println(entity);
 
             if (entity != null) {
                 // return it as a String
@@ -55,11 +52,13 @@ public class client {
                 System.out.println(result);
             }
 
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
     }
 
-    private static void sendPost(String path, JSONObject data) throws Exception {
+    public static void sendPost(String path, JSONObject data) throws Exception {
 
         HttpPost post = new HttpPost(path);
         
@@ -77,7 +76,7 @@ public class client {
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
             CloseableHttpResponse response = httpClient.execute(post)) {
 
-            System.out.println(EntityUtils.toString(response.getEntity()));
+            //System.out.println(EntityUtils.toString(response.getEntity()));
         }
 
     }
@@ -126,20 +125,68 @@ public class client {
                     System.out.println("Submit the event miliseconds:");
                     Integer eventMiliseconds = Integer.parseInt(buffer.readLine());
                     
-                    Timestamp timestamp = new Timestamp(eventYear, eventMonth, eventDay, eventHours, eventMinutes, eventSeconds, eventMiliseconds);
-
+                    Timestamp tempEvent_ts = new Timestamp(eventYear-1900, eventMonth-1, eventDay, eventHours, eventMinutes, eventSeconds, eventMiliseconds);
+                    String event_ts = tempEvent_ts.toString();
+                    String shorten_event_ts = event_ts.split(" ")[0];
+                    
                     System.out.println("Submit the event type.");
                     System.out.println("1- Track. 2- Road. 3- Trails");
                     int eventType = scanner.nextInt();
                     
-                    String path = "https://localhost:8080/event/post";
-                    
-                    JSONObject data = new JSONObject();
+                    data.clear();
                     data.put("eventName", eventName);
-                    data.put("eventDate", timestamp);
+                    data.put("eventDate", event_ts);
+                    data.put("eventShortenDate", shorten_event_ts);
                     data.put("eventType", eventType);
                     
+                    path = "http://localhost:8080/event/postRegisterEvent";
+                    
                     sendPost(path, data);
+                    
+                    break;
+                    
+                case 2: // Get events at day
+                    System.out.println("Submit the event year:");
+                    Integer searchYear = Integer.parseInt(buffer.readLine());
+                    
+                    System.out.println("Submit the event month:");
+                    Integer searchMonth = Integer.parseInt(buffer.readLine());
+                    
+                    System.out.println("Submit the event day:");
+                    Integer searchDay = Integer.parseInt(buffer.readLine());
+                    
+                    Timestamp tempSearch_ts = new Timestamp(searchYear-1900, searchMonth-1, searchDay, 00, 00, 00, 000);
+                    String search_ts = tempSearch_ts.toString().split(" ")[0];
+                    System.out.println("ts: " + search_ts);
+                    
+                    path = "http://localhost:8080/event/getEvents?eventShortenDate=" + search_ts;
+                    System.out.println("link: " + path);
+                 
+                    sendGet(path);
+                    
+                    break;
+
+                    
+                case 3: // Register a new participant
+                    System.out.println("Submit the participant name:");
+                    String participantName = buffer.readLine();
+
+                    System.out.println("Submit the gender.");
+                    System.out.println("1- Male. 2- Female:");
+                    int participantGender = scanner.nextInt();
+
+                    System.out.println("Submit the echelon.");
+                    System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
+                    int participantEchelon = scanner.nextInt();
+
+                    System.out.println("Submit event name to register this participant:");
+                    String eventNameToRegisterParticipant = buffer.readLine();
+                    
+                    path = "http://localhost:8080/event/postRegisterEvent";
+                    
+                    sendPost(path, data);
+
+                    break;
             }
             
         }
