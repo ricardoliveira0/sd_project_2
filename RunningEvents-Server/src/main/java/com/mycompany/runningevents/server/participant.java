@@ -13,60 +13,52 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name="event_list")
-public class event {
+@Table(name="participant_list")
+public class participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer eventID;
+    private Integer dorsalID;
     
-    private String eventName;
-    private Timestamp eventDate;
-    private String shortDate;
-    private Integer eventType;
+    private String eventID;
+    private String participantName;
+    private String participantEchelon;
+    private String participantGender;
+    private String participantLocation;
+    private Timestamp startTime;
+    private Timestamp P1Time;
+    private Timestamp P2Time;
+    private Timestamp P3Time;
+    private Timestamp finishTime;
     
-    public event(){}
+    public participant(){}
     
-    public event(String eventName, Timestamp eventDate, String shortDate, Integer eventType) {
-        this.eventName = eventName;
-        this.eventDate = eventDate;
-        this.shortDate = shortDate;
-        this.eventType = eventType;
+    public participant(String eventID, String participantName,
+            String participantEchelon, String participantGender, 
+            String participantLocation, Timestamp startTime, Timestamp P1Time, 
+            Timestamp P2Time, Timestamp P3Time, Timestamp finishTime) {
+        this.eventID = eventID;
+        this.participantName = participantName;
+        this.participantEchelon = participantEchelon;
+        this.participantGender = participantGender;
+        this.participantLocation = participantLocation;
+        this.startTime = startTime;
+        this.P1Time = P1Time;
+        this.P2Time = P2Time;
+        this.P3Time = P3Time;
+        this.finishTime = finishTime;
     }
     
-    public Integer getID() {
-        return eventID;
+    public Integer getDorsal() {
+        return dorsalID;
     }
     
-    public String getEventName(){
-        return eventName;
+    public String getParticipantName(){
+        return participantName;
     }
     
-    public void setEventName(String eventName){
-        this.eventName = eventName;
+    public void setParticipantName(String participantName){
+        this.participantName = participantName;
     }
     
-    public Timestamp getEventDate(){
-        return eventDate;
-    }
     
-    public void setEventDate(Timestamp eventDate){
-        this.eventDate = eventDate;
-    }
-    
-    public String getEventShortenDate(){
-        return shortDate;
-    }
-    
-    public void setEventShortenDate(String shortDate){
-        this.shortDate = shortDate;
-    }
-    
-    public Integer getEventType(){
-        return eventType;
-    }
-    
-    public void setEventType(Integer eventType){
-        this.eventType = eventType;
-        // TO DO: SWITCH
-    }
 }
