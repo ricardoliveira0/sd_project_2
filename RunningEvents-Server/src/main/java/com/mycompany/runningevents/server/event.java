@@ -32,7 +32,7 @@ public class event {
         this.shortDate = shortDate;
         this.eventType = eventType;
     }
-    
+
     public Integer getID() {
         return eventID;
     }

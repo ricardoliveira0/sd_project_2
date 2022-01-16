@@ -43,7 +43,7 @@ public class eventService {
             Timestamp eventDate = Timestamp.valueOf(tempDate);
             evento = new event((String)data.get("eventName"), eventDate, (String)data.get("eventShortenDate"),(Integer)data.get("eventType"));
             repository.save(evento);
-            return "pode criar";
+            return "Successfully registered event '" + (String)data.get("eventName") + "'.";
         }
         else return "já existe";
     }
