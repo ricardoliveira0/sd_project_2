@@ -251,7 +251,7 @@ public class client {
                     System.out.println("1- Track. 2- Road. 3- Trails:");
                     option = scanner.nextInt();
                     
-                    while (option < 1 && option > 3) {
+                    while (option < 1 || option > 3) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Track. 2- Road. 3- Trails:");
                         option = scanner.nextInt();
@@ -300,7 +300,7 @@ public class client {
                     System.out.println("1- Male. 2- Female:");
                     option = scanner.nextInt();
                     
-                    while (option < 1 && option > 2){
+                    while (option < 1 || option > 2){
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Male. 2- Female:");
                         option = scanner.nextInt();
@@ -312,7 +312,7 @@ public class client {
                     System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                     option = scanner.nextInt();
                     
-                    while (option < 0 && option > 10) {
+                    while (option < 0 || option > 9) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                         option = scanner.nextInt();
@@ -348,6 +348,7 @@ public class client {
                     break;
                     
                 case 5: // List participants -> Position
+                    
                     System.out.println("Submit the event name:");
                     String eventPosName = buffer.readLine();
                     
@@ -355,7 +356,7 @@ public class client {
                     System.out.println("1- P1. 2- P2. 3- P3:");
                     option = scanner.nextInt();
                     
-                    while (option < 1 && option > 3) {
+                    while (option < 1 || option > 3) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- P1. 2- P2. 3- P3:");
                         option = scanner.nextInt();
@@ -366,7 +367,33 @@ public class client {
                     sendGet(path);
 
                     break;
+                
+                case 6: // Get scoreboard
                     
+                    System.out.println("Submit the event name:");
+                    String eventScoreboard = buffer.readLine();
+                    
+                    System.out.println("Submit the position.");
+                    System.out.println("1- P1. 2- P2. 3- P3. 4- Final:");
+                    option = scanner.nextInt();
+                    String fullPos = "";
+                    
+                    while (option < 1 || option > 4) {
+                        System.out.println("Invalid option. Please choose one of the listed options.");
+                        System.out.println("1- P1. 2- P2. 3- P3. 4-Final:");
+                        option = scanner.nextInt();
+                    }
+                    if(option == 4)
+                        fullPos = "Final";
+                    else fullPos = String.valueOf(option);
+                    
+                    System.out.println(fullPos);
+                    
+                    path = "http://localhost:8080/participant/getScoreboard?eventSb=" + eventScoreboard + "&pos=" + option;
+                    
+                    sendGet(path);
+
+                    break;
             }
             
         }
