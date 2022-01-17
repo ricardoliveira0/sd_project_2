@@ -207,10 +207,8 @@ public class client {
             System.out.println("3. Register new participant");
             System.out.println("4. List participants from an event");
             System.out.println("5. Get number of participants at position");
-            //     /\ DONE       \/ TODO
             System.out.println("6. Get general scoreboard");
-            System.out.println("7. Get PONTO INTERMÉDIO");
-            System.out.println("8. Exit");
+            System.out.println("7. Exit");
             System.out.println("==============================================");
             
             opt = scanner.nextInt();
@@ -312,7 +310,7 @@ public class client {
                     System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                     option = scanner.nextInt();
                     
-                    while (option < 0 || option > 9) {
+                    while (option < 1 || option > 9) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
                         System.out.println("1- Juniors. 2- Seniors. 3- Veterans 35. 4- Veterans 40. 5- Veterans 45. 6- Veterans 50. 7- Veterans 55. 8- Veterans 60. 9- Veterans +65:");
                         option = scanner.nextInt();
@@ -361,8 +359,9 @@ public class client {
                         System.out.println("1- P1. 2- P2. 3- P3:");
                         option = scanner.nextInt();
                     }
+                        String fullOption = String.valueOf(option);
                     
-                    path = "http://localhost:8080/participant/getParticipantsAtPos?eventPosName=" + eventPosName + "&pos=" + option;
+                    path = "http://localhost:8080/participant/getParticipantsAtPos?eventPosName=" + eventPosName + "&pos=" + fullOption;
                     
                     sendGet(path);
 
@@ -380,20 +379,30 @@ public class client {
                     
                     while (option < 1 || option > 4) {
                         System.out.println("Invalid option. Please choose one of the listed options.");
-                        System.out.println("1- P1. 2- P2. 3- P3. 4-Final:");
+                        System.out.println("1- P1. 2- P2. 3- P3. 4- finish:");
                         option = scanner.nextInt();
                     }
                     if(option == 4)
-                        fullPos = "Final";
+                        fullPos = "finish";
                     else fullPos = String.valueOf(option);
-                    
-                    System.out.println(fullPos);
                     
                     path = "http://localhost:8080/participant/getScoreboard?eventSb=" + eventScoreboard + "&pos=" + fullPos;
                     
                     sendGet(path);
 
                     break;
+                
+                case 7: //Exit
+                    
+                    System.exit(0);
+                    
+                    break;
+                    
+                default: 
+                    System.err.println("Invalid option.");
+       
+                    break;
+                    
             }
             
         }
