@@ -389,7 +389,7 @@ public class client {
                     
                     System.out.println(fullPos);
                     
-                    path = "http://localhost:8080/participant/getScoreboard?eventSb=" + eventScoreboard + "&pos=" + option;
+                    path = "http://localhost:8080/participant/getScoreboard?eventSb=" + eventScoreboard + "&pos=" + fullPos;
                     
                     sendGet(path);
 
