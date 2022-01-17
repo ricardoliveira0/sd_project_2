@@ -4,7 +4,6 @@
  */
 package com.mycompany.runningevents.server;
 
-import java.util.List;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
