@@ -257,7 +257,7 @@ public class client {
                         option = scanner.nextInt();
                     }
                     
-                    String eventType = genderInterpreter(option);
+                    String eventType = typeInterpreter(option);
                     
                     data.clear();
                     data.put("eventName", eventName);
