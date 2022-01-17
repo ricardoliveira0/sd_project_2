@@ -32,13 +32,14 @@ public class eventController {
     
     @GetMapping(path="/getEvents")
     public List<event> getController(@RequestParam("eventShortenDate") String data){
-        System.out.println("AI AI AI " + data);
+        System.out.println("[INFO] Received data as param: " + data);
         return service.getDayEvents(data);
     }
     
     
     @PostMapping(path="/postRegisterEvent", consumes = "application/json", produces = "application/json")
     public String postController(@RequestBody JSONObject data){
+        System.out.println("[INFO] Received data as JSONObject: " + data);
         String output = service.registerNewEvent(data);
         return output;
     }

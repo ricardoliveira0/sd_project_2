@@ -16,4 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface participantRepository extends JpaRepository<participant, Integer> {
     participant findByDorsalID(Integer participantID);
+    List<participant> findAllByEventID(Integer eventID);
+    long countByParticipantLocation(Integer pos);
+    List<participant> findAllByParticipantLocation(String pos);
 }

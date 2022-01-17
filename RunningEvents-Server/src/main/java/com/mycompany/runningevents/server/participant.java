@@ -23,7 +23,7 @@ public class participant {
     private String participantName;
     private String participantEchelon;
     private String participantGender;
-    private String participantLocation;
+    private Integer participantLocation;
     private Timestamp startTime;
     private Timestamp P1Time;
     private Timestamp P2Time;
@@ -34,7 +34,7 @@ public class participant {
     
     public participant(Integer eventID, String participantName,
             String participantEchelon, String participantGender, 
-            String participantLocation, Timestamp startTime, Timestamp P1Time, 
+            Integer participantLocation, Timestamp startTime, Timestamp P1Time, 
             Timestamp P2Time, Timestamp P3Time, Timestamp finishTime) {
         this.eventID = eventID;
         this.participantName = participantName;
@@ -76,11 +76,11 @@ public class participant {
         this.participantGender = participantGender;
     }
     
-    public String getParticipantLocation(){
+    public Integer getParticipantLocation(){
         return participantLocation;
     }
     
-    public void setParticipantLocation(String participantLocation){
+    public void setParticipantLocation(Integer participantLocation){
         this.participantLocation = participantLocation;
     }
     

@@ -30,8 +30,27 @@ public class participantController {
         this.service = service;
     }
     
+    @GetMapping(path="/getEventParticipant")
+    public List<participant> getEPController(@RequestParam("eventSearchName") String data){
+        System.out.println("[INFO] Received data as param: " + data);
+        return service.getAllParticipantsFromEvent(data);
+    }
+
+    @GetMapping(path="/getParticipantsAtPos")
+    public long getPAPController(@RequestParam("eventPosName") String data_eventName, @RequestParam("pos") Integer data_pos) {
+        System.out.println("[INFO] Received data as param: " + data_eventName + " | " + data_pos);
+        return service.getParticipantsAtPos(data_eventName, data_pos);
+    }
+    
+    @GetMapping(path="/getScoreboard")
+    public List<participant> getSBController(@RequestParam("eventSb") String data_eventName, @RequestParam("pos") String data_pos) {
+        System.out.println("[INFO] Received data as param: " + data_eventName + " | " + data_pos);
+        return service.getScoreboard(data_eventName, data_pos);
+    }
+    
     @PostMapping(path="/postRegisterParticipant", consumes = "application/json", produces = "application/json")
     public String postController(@RequestBody JSONObject data){
+        System.out.println("[INFO] Received data as JSONObject: " + data);
         String output = service.registerNewParticipant(data);
         return output;
     }

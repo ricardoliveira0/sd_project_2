@@ -27,22 +27,71 @@ public class participantService {
     private event evento;
     
     @Autowired
-    public participantService(participantRepository repository){
+    public participantService(participantRepository repository) {
         this.repository = repository;
     }
     
     @Autowired
-    public void eventService(eventRepository event_repository){
+    public void eventService(eventRepository event_repository) {
         this.event_repository = event_repository;
     }
     
+    @GetMapping
+    public List<participant> getAllParticipantsFromEvent(String data) {
+
+        evento = event_repository.findByEventName(data);
+
+        if(evento != null) {
+            int eventID = evento.getID();
+            System.out.println("[INFO] Event ID found: " + eventID);
+            return repository.findAllByEventID(eventID);
+        }
+        else System.out.println("[ERROR] Event not found.");
+
+        return null;
+        
+    }
+
+    @GetMapping
+    public long getParticipantsAtPos(String data_eventName, Integer data_pos) {
+
+        evento = event_repository.findByEventName(data_eventName);
+
+        if(evento != null) {
+            int eventID = evento.getID();
+            System.out.println("[INFO] Event ID found: " + eventID);
+            return repository.countByParticipantLocation(data_pos);
+        }
+        else System.out.println("[ERROR] Event not found.");
+
+        return -1;
+        
+    }
+    
+    @GetMapping
+    public List<participant> getScoreboard(String data_eventName, String data_pos) {
+
+        evento = event_repository.findByEventName(data_eventName);
+
+        if(evento != null) {
+            int eventID = evento.getID();
+            System.out.println("[INFO] Event ID found: " + eventID);
+            return repository.findAllByParticipantLocation(data_pos);
+        }
+        else System.out.println("[ERROR] Event not found.");
+
+        return null;
+        
+    }
+    
     @PostMapping
-    public String registerNewParticipant(@RequestBody JSONObject data){
+    public String registerNewParticipant(@RequestBody JSONObject data) {
         
         evento = event_repository.findByEventName((String)data.get("participantEvent"));
         
-        if(evento != null){
+        if(evento != null) {
             int eventID = evento.getID();
+            System.out.println("[INFO] Event ID found: " + eventID);
             participante = new participant(eventID, (String)data.get("participantName"),
                     (String)data.get("participantEchelon"), (String)data.get("participantGender"), 
                     null, null, null, null, null, null);
@@ -55,4 +104,5 @@ public class participantService {
                 + (String)data.get("participantEvent") + "'.";
         
     }
+    
 }
