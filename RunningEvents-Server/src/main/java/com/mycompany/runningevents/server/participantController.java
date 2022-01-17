@@ -31,19 +31,19 @@ public class participantController {
     }
     
     @GetMapping(path="/getEventParticipant")
-    public List<participant> getEPController(@RequestParam("eventSearchName") String data){
+    public String getEPController(@RequestParam("eventSearchName") String data){
         System.out.println("[INFO] Received data as param: " + data);
         return service.getAllParticipantsFromEvent(data);
     }
 
     @GetMapping(path="/getParticipantsAtPos")
-    public long getPAPController(@RequestParam("eventPosName") String data_eventName, @RequestParam("pos") Integer data_pos) {
+    public long getPAPController(@RequestParam("eventPosName") String data_eventName, @RequestParam("pos") String data_pos) {
         System.out.println("[INFO] Received data as param: " + data_eventName + " | " + data_pos);
         return service.getParticipantsAtPos(data_eventName, data_pos);
     }
     
     @GetMapping(path="/getScoreboard")
-    public List<participant> getSBController(@RequestParam("eventSb") String data_eventName, @RequestParam("pos") String data_pos) {
+    public String getSBController(@RequestParam("eventSb") String data_eventName, @RequestParam("pos") String data_pos) {
         System.out.println("[INFO] Received data as param: " + data_eventName + " | " + data_pos);
         return service.getScoreboard(data_eventName, data_pos);
     }
@@ -51,7 +51,13 @@ public class participantController {
     @PostMapping(path="/postRegisterParticipant", consumes = "application/json", produces = "application/json")
     public String postController(@RequestBody JSONObject data){
         System.out.println("[INFO] Received data as JSONObject: " + data);
-        String output = service.registerNewParticipant(data);
-        return output;
+        return service.registerNewParticipant(data);
     }
+    
+    @PostMapping(path="/postSensorReadTime", consumes = "application/json", produces = "application/json")
+    public String postSRTController(@RequestBody JSONObject data){
+        System.out.println("[INFO] Received data as JSONObject: " + data);
+        return service.registerNewSensorRead(data);
+    }
+    
 }

@@ -69,4 +69,5 @@ public class event {
         this.eventType = eventType;
         // TO DO: SWITCH
     }
+    
 }

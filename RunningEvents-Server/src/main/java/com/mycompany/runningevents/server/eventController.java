@@ -31,7 +31,7 @@ public class eventController {
     }
     
     @GetMapping(path="/getEvents")
-    public List<event> getController(@RequestParam("eventShortenDate") String data){
+    public String getController(@RequestParam("eventShortenDate") String data){
         System.out.println("[INFO] Received data as param: " + data);
         return service.getDayEvents(data);
     }

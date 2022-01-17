@@ -30,9 +30,21 @@ public class eventService {
     }
     
     @GetMapping
-    public List<event> getDayEvents(String data){
-        System.out.println(data);
-        return repository.findAllByShortDate(data);
+    public String getDayEvents(String data){
+        
+        List<event> eventList;
+        event tempEvent;
+        String output="";
+       
+        eventList = repository.findAllByShortDate(data);
+        
+        while (!eventList.isEmpty()) {
+            tempEvent = eventList.get(0);
+            output = output + tempEvent.getEventName() + " | " + tempEvent.getEventShortenDate() + "\n";
+            eventList.remove(0);
+        }
+        
+        return output;
     }
     
     @PostMapping

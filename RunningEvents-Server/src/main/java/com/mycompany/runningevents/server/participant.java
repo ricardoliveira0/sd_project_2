@@ -23,18 +23,18 @@ public class participant {
     private String participantName;
     private String participantEchelon;
     private String participantGender;
-    private Integer participantLocation;
+    private String participantLocation;
     private Timestamp startTime;
-    private Timestamp P1Time;
-    private Timestamp P2Time;
-    private Timestamp P3Time;
+    private Timestamp pos1Time;
+    private Timestamp pos2Time;
+    private Timestamp pos3Time;
     private Timestamp finishTime;
     
     public participant(){}
     
     public participant(Integer eventID, String participantName,
             String participantEchelon, String participantGender, 
-            Integer participantLocation, Timestamp startTime, Timestamp P1Time, 
+            String participantLocation, Timestamp startTime, Timestamp P1Time, 
             Timestamp P2Time, Timestamp P3Time, Timestamp finishTime) {
         this.eventID = eventID;
         this.participantName = participantName;
@@ -42,14 +42,18 @@ public class participant {
         this.participantGender = participantGender;
         this.participantLocation = participantLocation;
         this.startTime = startTime;
-        this.P1Time = P1Time;
-        this.P2Time = P2Time;
-        this.P3Time = P3Time;
+        this.pos1Time = P1Time;
+        this.pos2Time = P2Time;
+        this.pos3Time = P3Time;
         this.finishTime = finishTime;
     }
     
     public Integer getDorsal() {
         return dorsalID;
+    }
+    
+    public Integer getEvent() {
+        return eventID;
     }
     
     public String getParticipantName(){
@@ -76,11 +80,11 @@ public class participant {
         this.participantGender = participantGender;
     }
     
-    public Integer getParticipantLocation(){
+    public String getParticipantLocation(){
         return participantLocation;
     }
     
-    public void setParticipantLocation(Integer participantLocation){
+    public void setParticipantLocation(String participantLocation){
         this.participantLocation = participantLocation;
     }
     
@@ -93,27 +97,27 @@ public class participant {
     }
 
     public Timestamp getParticipantP1Time(){
-        return P1Time;
+        return pos1Time;
     }
     
     public void setParticipantP1Time(Timestamp P1Time){
-        this.P1Time = P1Time;
+        this.pos1Time = P1Time;
     }
 
     public Timestamp getParticipantP2Time(){
-        return P2Time;
+        return pos2Time;
     }
     
     public void setParticipantP2Time(Timestamp P2Time){
-        this.P2Time = P2Time;
+        this.pos2Time = P2Time;
     }
 
     public Timestamp getParticipantP3Time(){
-        return P3Time;
+        return pos3Time;
     }
     
     public void setParticipantP3Time(Timestamp P3Time){
-        this.P3Time = P3Time;
+        this.pos3Time = P3Time;
     }
 
     public Timestamp getParticipantFinishTime(){
